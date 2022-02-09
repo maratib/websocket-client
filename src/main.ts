@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import WebSocket from "ws";
+import request from "request";
 dotenv.config();
 
 const url = process.env.SERVER;
@@ -14,7 +15,7 @@ const ws = new WebSocket(url, {
 });
 
 ws.on("open", function open() {
-  console.log("Open");
+  console.log("Open : ");
 });
 
 ws.on("error", function error(e) {
@@ -22,8 +23,33 @@ ws.on("error", function error(e) {
 });
 
 ws.on("message", function message(data) {
-  const e = JSON.parse(data.toString());
-  console.log("received: %s", e.msgId);
+  const jsonData = JSON.parse(data.toString());
+
+  if (jsonData.msgId === 1103) {
+    console.log("received: %s", jsonData.msgId);
+  } else {
+    sendData(jsonData);
+  }
 });
 
-console.log("Hello Typescript ", process.env.SERVER);
+function sendData(data) {
+  const url1 = "https://hrm.fastbooks.info/device-event";
+
+  request(
+    {
+      url: url1,
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+      json: data,
+    },
+    function (err, resp, body) {
+      if (!err) {
+        console.log("BODY: ", body);
+      } else {
+        console.log("Request err", err);
+      }
+    }
+  );
+}
