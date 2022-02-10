@@ -3,14 +3,16 @@ import WebSocket from "ws";
 import request from "request";
 dotenv.config();
 
-const url = process.env.SERVER;
-console.log("Connecting to : " + url);
+const server_url = process.env.SERVER;
+const client_url = process.env.CLIENT;
 
-const ws1 = new WebSocket(url, {
+console.log("Connecting to : " + server_url);
+
+const ws1 = new WebSocket(server_url, {
   origin: "http://127.0.0.1",
 });
 
-const ws = new WebSocket(url, {
+const ws = new WebSocket(server_url, {
   origin: "http://127.0.0.1",
 });
 
@@ -33,11 +35,9 @@ ws.on("message", function message(data) {
 });
 
 function sendData(data) {
-  const url1 = "https://hrm.fastbooks.info/device-event";
-
   request(
     {
-      url: url1,
+      url: client_url,
       method: "GET",
       headers: {
         "content-type": "application/json",

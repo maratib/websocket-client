@@ -6,16 +6,9 @@
   "description": "WebSockets",
   "license": "ISC",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "ts-node ./src/main.ts",
-    "build": "tsc && node ./dist/main.js"
-  },
-  "devDependencies": {
-    "@types/dotenv": "^8.2.0",
-    "@types/node": "^15.0.1",
-    "@types/ws": "^8.2.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "dev": "node ./src/main.js"
   },
   "dependencies": {
     "dotenv": "^16.0.0",
